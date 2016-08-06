@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TTDownloadCache : NSObject
+typedef void (^DictionaryResponseHandler)(NSDictionary * dictionary, BOOL fromCache);
 
+@interface TTDownloadCache : NSObject
+- (void) dictionaryResponseFromURLRequest:(NSURLRequest *)request withHandler:(DictionaryResponseHandler)blockName;
 @end
