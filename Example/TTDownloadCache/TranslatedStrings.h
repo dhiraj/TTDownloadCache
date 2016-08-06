@@ -14,6 +14,15 @@
 #define S_Search NSLocalizedString(@"Search",@"")
 #define S_Sorry NSLocalizedString(@"Sorry",@"")
 #define S_Confirm NSLocalizedString(@"Confirm",@"")
+
 #define S_DownloadCache NSLocalizedString(@"Download Cache",@"")
+#define S_Flickr NSLocalizedString(@"Flickr",@"")
+#define S_ShowInterestingImages NSLocalizedString(@"Show interesting images",@"")
+#define S_FlickrInteresting NSLocalizedString(@"Flickr Interesting",@"")
+#define S_ClearMemory NSLocalizedString(@"Clear Memory",@"")
+#define S_PurgeMemCache NSLocalizedString(@"Purge Memory Cache",@"")
+#define S_ClearDisk NSLocalizedString(@"Clear Disk",@"")
+#define S_PurgeDiskCache NSLocalizedString(@"Purge Disk Cache",@"")
+
 
 #endif /* TranslatedStrings_h */

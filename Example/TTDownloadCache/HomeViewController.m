@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "TTAppDelegate.h"
 #import "MenuTableViewCell.h"
+#import "FlickrInterestingViewController.h"
 
 
 typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITableView * tableView, NSIndexPath * ipath);
@@ -22,43 +23,38 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
 #define SINGLECELL @"SINGLECELL"
 @implementation HomeViewController
 
-#pragma mark - Private
-- (void) reloadTableView{
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
 #pragma mark - LifeCycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     MenuHandler flickrHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        //        [vc presentViewController:[BUtil navigationControllerWithRoot:submitVC] animated:YES completion:nil];
+        FlickrInterestingViewController * vc = [[FlickrInterestingViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:vc animated:YES];
     };
     MenuHandler clearMemCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        //        [vc presentViewController:[BUtil navigationControllerWithRoot:submitVC] animated:YES completion:nil];
     };
     MenuHandler clearDiskCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        //        [vc presentViewController:[BUtil navigationControllerWithRoot:submitVC] animated:YES completion:nil];
     };
     self.arrayMenu = [@[
                         @{
-                            @"title":@"Flickr",
-                            @"description":@"Show interesting images",
+                            @"title":S_Flickr,
+                            @"description":S_ShowInterestingImages,
                             @"handler":[flickrHandler copy],
                             },
                         @{
-                            @"title":@"Clear Memory",
-                            @"description":@"Purge Memory Cache",
+                            @"title":S_ClearMemory,
+                            @"description":S_PurgeMemCache,
                             @"handler":[clearMemCacheHandler copy],
                             },
                         @{
-                            @"title":@"Clear Disk",
-                            @"description":@"Purge Disk Cache",
+                            @"title":S_ClearDisk,
+                            @"description":S_ClearMemory,
                             @"handler":[clearDiskCacheHandler copy],
                             },
                                        ]
-                                mutableCopy],
+                      mutableCopy];
     
     
     
@@ -97,6 +93,15 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     MenuTableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:SINGLECELL];
     [cell updateItemTo:self.arrayMenu[indexPath.row]];
     return cell;
+}
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary * item = self.arrayMenu[indexPath.row];
+    MenuHandler handler = item[@"handler"];
+    if (!handler) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    handler(item,nil,self.tableView,indexPath);
 }
 
 @end
