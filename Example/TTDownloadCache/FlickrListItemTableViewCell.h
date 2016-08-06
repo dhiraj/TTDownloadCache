@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTAppDelegate.h"
 
 @interface FlickrListItemTableViewCell : UITableViewCell
-
+- (void) updateFlickrItemTo:(TTFlickrItem *)item;
 @end

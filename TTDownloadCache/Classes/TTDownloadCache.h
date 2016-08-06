@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^DictionaryResponseHandler)(NSDictionary * dictionary, BOOL fromCache);
+typedef void (^JSONDataHandler)(NSData * data, BOOL fromCache);
 
 @interface TTDownloadCache : NSObject
-- (void) dictionaryResponseFromURLRequest:(NSURLRequest *)request withHandler:(DictionaryResponseHandler)blockName;
+- (void) JSONDataFromURLRequest:(NSURLRequest *)request withHandler:(JSONDataHandler)blockName;
 @end

@@ -36,7 +36,7 @@
 #pragma mark - NSURLSession
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error{
     DLog(@"Finished:%@,Eror:%@",task,error);
-    DictionaryResponseHandler handler = self.dictTaskHandlers[task];
+    JSONDataHandler handler = self.dictTaskHandlers[task];
     NSData * dataForTask = self.dictTaskData[task];
     [self.dictTaskData removeObjectForKey:task];
     [self.dictTaskHandlers removeObjectForKey:task];
@@ -58,16 +58,8 @@
         });
         return;
     }
-    NSError * conversionEror = nil;
-    NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:dataForTask options:NSJSONReadingAllowFragments error:&conversionEror];
-    if (conversionEror != nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            handler(nil,NO);
-        });
-        return;
-    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        handler(dict,NO);
+        handler(dataForTask,NO);
     });
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
@@ -132,7 +124,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 }
 
 #pragma mark - Exposed
-- (void) dictionaryResponseFromURLRequest:(NSURLRequest *)request withHandler:(DictionaryResponseHandler)blockName{
+- (void) JSONDataFromURLRequest:(NSURLRequest *)request withHandler:(JSONDataHandler)blockName{
     NSURLSessionDataTask * task = [self.session dataTaskWithRequest:request];
     self.dictTaskHandlers[task] = blockName;
     [task resume];

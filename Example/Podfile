@@ -2,6 +2,10 @@ use_frameworks!
 
 target 'TTDownloadCache_Example' do
   pod 'TTDownloadCache', :path => '../'
+  pod 'RequestUtils', '~> 1.1'
+  pod 'JSONModel', '~> 1.3'
+  pod 'JSONTools', '~> 1.0'
+  pod 'DateTools', '~> 1.7'
 
   target 'TTDownloadCache_Tests' do
     inherit! :search_paths

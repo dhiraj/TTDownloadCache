@@ -9,6 +9,8 @@
 #import "DebugHelpers.h"
 #import "BUtil.h"
 #import "TTDownloadCache.h"
+#import "RequestUtils.h"
+#import "TTFlickrItem.h"
 
 @import UIKit;
 
