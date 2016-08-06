@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^JSONDataHandler)(NSData * data, BOOL fromCache);
+typedef void (^DataHandler)(NSData * data, BOOL fromCache);
 
 @interface TTDownloadCache : NSObject
-- (void) JSONDataFromURLRequest:(NSURLRequest *)request withHandler:(JSONDataHandler)blockName;
+- (void) dataFromURLRequest:(NSURLRequest *)request withHandler:(DataHandler)blockName;
 @end

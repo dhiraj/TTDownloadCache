@@ -17,7 +17,7 @@
 @property (nonatomic,strong) NSMutableArray * arrayResults;
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic,assign) BOOL hasMaxed;
-@property (nonatomic,copy) JSONDataHandler dataHandlerBlock;
+@property (nonatomic,copy) DataHandler dataHandlerBlock;
 @end
 
 #define SINGLECELL @"SINGLECELL"
@@ -84,7 +84,7 @@
         [weakSelf reloadTableView];
 //        DLog(@"%@",dict);
     };
-    [[UIApplication app].downloadCache JSONDataFromURLRequest:[self nextPageURLRequest] withHandler:self.dataHandlerBlock];
+    [[UIApplication app].downloadCache dataFromURLRequest:[self nextPageURLRequest] withHandler:self.dataHandlerBlock];
 }
 - (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

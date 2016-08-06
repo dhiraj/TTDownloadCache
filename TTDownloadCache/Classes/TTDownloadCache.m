@@ -36,7 +36,7 @@
 #pragma mark - NSURLSession
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error{
     DLog(@"Finished:%@,Eror:%@",task,error);
-    JSONDataHandler handler = self.dictTaskHandlers[task];
+    DataHandler handler = self.dictTaskHandlers[task];
     NSData * dataForTask = self.dictTaskData[task];
     [self.dictTaskData removeObjectForKey:task];
     [self.dictTaskHandlers removeObjectForKey:task];
@@ -124,7 +124,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 }
 
 #pragma mark - Exposed
-- (void) JSONDataFromURLRequest:(NSURLRequest *)request withHandler:(JSONDataHandler)blockName{
+- (void) dataFromURLRequest:(NSURLRequest *)request withHandler:(DataHandler)blockName{
     NSURLSessionDataTask * task = [self.session dataTaskWithRequest:request];
     self.dictTaskHandlers[task] = blockName;
     [task resume];
