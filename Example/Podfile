@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'TTDownloadCache_Example' do
+  pod 'TTDownloadCache', :path => '../'
+
+  target 'TTDownloadCache_Tests' do
+    inherit! :search_paths
+
+    pod 'Specta'
+  pod 'Expecta'
+  end
+end
