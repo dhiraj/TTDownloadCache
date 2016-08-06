@@ -35,7 +35,7 @@
                                       ,@"per_page":@"10"
                                       ,@"format":@"json"
                                       ,@"nojsoncallback":@"1"
-                                      ,@"extras":@"url_t,owner_name,last_update,o_dims"
+                                      ,@"extras":@"url_q,owner_name,last_update,o_dims"
                                       } mutableCopy];
     self.page += 1;
     params[@"page"] = @(self.page);
@@ -53,7 +53,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.rowHeight = 48.0f;
+    self.tableView.rowHeight = 91.0f;
     [self.tableView registerClass:[FlickrListItemTableViewCell class] forCellReuseIdentifier:SINGLECELL];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
