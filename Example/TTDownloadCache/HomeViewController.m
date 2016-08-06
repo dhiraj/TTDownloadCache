@@ -22,10 +22,6 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
 #define SINGLECELL @"SINGLECELL"
 @implementation HomeViewController
 
-#pragma mark - Private
-- (void) reloadTableView{
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
 #pragma mark - LifeCycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,22 +39,22 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     };
     self.arrayMenu = [@[
                         @{
-                            @"title":@"Flickr",
-                            @"description":@"Show interesting images",
+                            @"title":S_Flickr,
+                            @"description":S_ShowInterestingImages,
                             @"handler":[flickrHandler copy],
                             },
                         @{
-                            @"title":@"Clear Memory",
-                            @"description":@"Purge Memory Cache",
+                            @"title":S_ClearMemory,
+                            @"description":S_PurgeMemCache,
                             @"handler":[clearMemCacheHandler copy],
                             },
                         @{
-                            @"title":@"Clear Disk",
-                            @"description":@"Purge Disk Cache",
+                            @"title":S_ClearDisk,
+                            @"description":S_ClearMemory,
                             @"handler":[clearDiskCacheHandler copy],
                             },
                                        ]
-                                mutableCopy],
+                      mutableCopy];
     
     
     
