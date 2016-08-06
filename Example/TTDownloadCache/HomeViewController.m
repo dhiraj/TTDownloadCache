@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "TTAppDelegate.h"
 #import "MenuTableViewCell.h"
+#import "FlickrInterestingViewController.h"
 
 
 typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITableView * tableView, NSIndexPath * ipath);
@@ -27,15 +28,14 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     [super viewDidLoad];
     MenuHandler flickrHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        //        [vc presentViewController:[BUtil navigationControllerWithRoot:submitVC] animated:YES completion:nil];
+        FlickrInterestingViewController * vc = [[FlickrInterestingViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:vc animated:YES];
     };
     MenuHandler clearMemCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        //        [vc presentViewController:[BUtil navigationControllerWithRoot:submitVC] animated:YES completion:nil];
     };
     MenuHandler clearDiskCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        //        [vc presentViewController:[BUtil navigationControllerWithRoot:submitVC] animated:YES completion:nil];
     };
     self.arrayMenu = [@[
                         @{
@@ -93,6 +93,15 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     MenuTableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:SINGLECELL];
     [cell updateItemTo:self.arrayMenu[indexPath.row]];
     return cell;
+}
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary * item = self.arrayMenu[indexPath.row];
+    MenuHandler handler = item[@"handler"];
+    if (!handler) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    handler(item,nil,self.tableView,indexPath);
 }
 
 @end
