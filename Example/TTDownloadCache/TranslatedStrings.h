@@ -14,6 +14,6 @@
 #define S_Search NSLocalizedString(@"Search",@"")
 #define S_Sorry NSLocalizedString(@"Sorry",@"")
 #define S_Confirm NSLocalizedString(@"Confirm",@"")
-#define S_Sent NSLocalizedString(@"Sent",@"")
+#define S_DownloadCache NSLocalizedString(@"Download Cache",@"")
 
 #endif /* TranslatedStrings_h */
