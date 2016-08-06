@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59E552041D56269E004620DD /* BUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E552021D56269E004620DD /* BUtil.m */; };
+		59E552071D5627BE004620DD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59E552061D5627BE004620DD /* Launch Screen.storyboard */; };
+		59E5520B1D562966004620DD /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E5520A1D562966004620DD /* HomeViewController.m */; };
+		59E5520F1D562DEA004620DD /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E5520E1D562DEA004620DD /* MenuTableViewCell.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -36,6 +40,15 @@
 
 /* Begin PBXFileReference section */
 		4DBF2EA3E8E4D062EF3E6718 /* Pods_TTDownloadCache_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTDownloadCache_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		59E552011D56269E004620DD /* BUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BUtil.h; sourceTree = "<group>"; };
+		59E552021D56269E004620DD /* BUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BUtil.m; sourceTree = "<group>"; };
+		59E552031D56269E004620DD /* DebugHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugHelpers.h; sourceTree = "<group>"; };
+		59E552051D562706004620DD /* TranslatedStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TranslatedStrings.h; sourceTree = "<group>"; };
+		59E552061D5627BE004620DD /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../Launch Screen.storyboard"; sourceTree = "<group>"; };
+		59E552091D562966004620DD /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		59E5520A1D562966004620DD /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		59E5520D1D562DEA004620DD /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewCell.h; sourceTree = "<group>"; };
+		59E5520E1D562DEA004620DD /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewCell.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* TTDownloadCache_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTDownloadCache_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -102,6 +115,36 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		59E552001D56269E004620DD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				59E552011D56269E004620DD /* BUtil.h */,
+				59E552021D56269E004620DD /* BUtil.m */,
+				59E552031D56269E004620DD /* DebugHelpers.h */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		59E552081D562940004620DD /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6003F5A5195388D20070C39A /* TTViewController.h */,
+				6003F5A6195388D20070C39A /* TTViewController.m */,
+				59E552091D562966004620DD /* HomeViewController.h */,
+				59E5520A1D562966004620DD /* HomeViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		59E5520C1D562DAE004620DD /* Table Cells */ = {
+			isa = PBXGroup;
+			children = (
+				59E5520D1D562DEA004620DD /* MenuTableViewCell.h */,
+				59E5520E1D562DEA004620DD /* MenuTableViewCell.m */,
+			);
+			name = "Table Cells";
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -139,10 +182,13 @@
 		6003F593195388D20070C39A /* Example for TTDownloadCache */ = {
 			isa = PBXGroup;
 			children = (
+				59E5520C1D562DAE004620DD /* Table Cells */,
+				59E552081D562940004620DD /* View Controllers */,
+				59E552051D562706004620DD /* TranslatedStrings.h */,
+				59E552001D56269E004620DD /* Utils */,
 				6003F59C195388D20070C39A /* TTAppDelegate.h */,
 				6003F59D195388D20070C39A /* TTAppDelegate.m */,
-				6003F5A5195388D20070C39A /* TTViewController.h */,
-				6003F5A6195388D20070C39A /* TTViewController.m */,
+				59E552061D5627BE004620DD /* Launch Screen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -241,7 +287,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TT;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Dhiraj Gupta";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
@@ -277,6 +323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59E552071D5627BE004620DD /* Launch Screen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -392,6 +439,9 @@
 			files = (
 				6003F59E195388D20070C39A /* TTAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* TTViewController.m in Sources */,
+				59E552041D56269E004620DD /* BUtil.m in Sources */,
+				59E5520B1D562966004620DD /* HomeViewController.m in Sources */,
+				59E5520F1D562DEA004620DD /* MenuTableViewCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,12 +499,15 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -489,11 +542,14 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
