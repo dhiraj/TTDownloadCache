@@ -17,6 +17,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     [self.window setRootViewController:[BUtil navigationControllerWithRoot:[[HomeViewController alloc] initWithNibName:nil bundle:nil]]];
+    self.downloadCache = [[TTDownloadCache alloc] init];
     return YES;
 }
 
@@ -47,4 +48,9 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+@end
+@implementation UIApplication (SharedAppDelegate)
++(TTAppDelegate*)app{
+    return (TTAppDelegate*)[UIApplication sharedApplication].delegate;
+}
 @end
