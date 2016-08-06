@@ -1,0 +1,22 @@
+PODS:
+  - Expecta (1.0.5)
+  - Specta (1.0.5)
+  - TTDownloadCache (0.1.0)
+
+DEPENDENCIES:
+  - Expecta
+  - Specta
+  - TTDownloadCache (from `../`)
+
+EXTERNAL SOURCES:
+  TTDownloadCache:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
+  Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
+  TTDownloadCache: d851257d0673a5c2d93fbef30d1040016492209d
+
+PODFILE CHECKSUM: 69937215680c591629247d3490fa232b1424e80a
+
+COCOAPODS: 1.0.1

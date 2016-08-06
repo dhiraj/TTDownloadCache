@@ -20,7 +20,6 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		88D1C697EEC48BF99C7C1C58 /* Pods_TTDownloadCache_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DBF2EA3E8E4D062EF3E6718 /* Pods_TTDownloadCache_Example.framework */; };
 		B69EFB7B37680ABA34242CAB /* Pods_TTDownloadCache_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4FE21F39F0231668CE0AC44 /* Pods_TTDownloadCache_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -57,7 +56,6 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		69F99018E387E81F87FDD3EF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8EFBDAA81DBC9A8623D0C4B1 /* Pods-TTDownloadCache_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTDownloadCache_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTDownloadCache_Tests/Pods-TTDownloadCache_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		9B867435F508A9F0A06E3AAA /* Pods-TTDownloadCache_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTDownloadCache_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTDownloadCache_Example/Pods-TTDownloadCache_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B7DA6E6BFA85ACD699C79C08 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 			children = (
 				6003F59C195388D20070C39A /* TTAppDelegate.h */,
 				6003F59D195388D20070C39A /* TTAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* TTViewController.h */,
 				6003F5A6195388D20070C39A /* TTViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
@@ -247,6 +244,10 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Dhiraj Gupta";
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 36N7DA9ZKZ;
+						DevelopmentTeamName = "Traversient Tech LLP";
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -276,7 +277,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -512,7 +512,6 @@
 			baseConfigurationReference = 9B867435F508A9F0A06E3AAA /* Pods-TTDownloadCache_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TTDownloadCache/TTDownloadCache-Prefix.pch";
 				INFOPLIST_FILE = "TTDownloadCache/TTDownloadCache-Info.plist";
@@ -528,7 +527,6 @@
 			baseConfigurationReference = FF1652B18B90B29AFEA53E4A /* Pods-TTDownloadCache_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TTDownloadCache/TTDownloadCache-Prefix.pch";
 				INFOPLIST_FILE = "TTDownloadCache/TTDownloadCache-Info.plist";
