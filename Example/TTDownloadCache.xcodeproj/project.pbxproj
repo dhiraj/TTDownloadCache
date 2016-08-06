@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		591B7EB51D56327300B29551 /* FlickrInterestingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 591B7EB41D56327300B29551 /* FlickrInterestingViewController.m */; };
+		591B7EB81D56331900B29551 /* FlickrListItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 591B7EB71D56331900B29551 /* FlickrListItemTableViewCell.m */; };
 		59E552041D56269E004620DD /* BUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E552021D56269E004620DD /* BUtil.m */; };
 		59E552071D5627BE004620DD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59E552061D5627BE004620DD /* Launch Screen.storyboard */; };
 		59E5520B1D562966004620DD /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E5520A1D562966004620DD /* HomeViewController.m */; };
@@ -40,6 +42,10 @@
 
 /* Begin PBXFileReference section */
 		4DBF2EA3E8E4D062EF3E6718 /* Pods_TTDownloadCache_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTDownloadCache_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		591B7EB31D56327300B29551 /* FlickrInterestingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrInterestingViewController.h; sourceTree = "<group>"; };
+		591B7EB41D56327300B29551 /* FlickrInterestingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrInterestingViewController.m; sourceTree = "<group>"; };
+		591B7EB61D56331900B29551 /* FlickrListItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrListItemTableViewCell.h; sourceTree = "<group>"; };
+		591B7EB71D56331900B29551 /* FlickrListItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrListItemTableViewCell.m; sourceTree = "<group>"; };
 		59E552011D56269E004620DD /* BUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BUtil.h; sourceTree = "<group>"; };
 		59E552021D56269E004620DD /* BUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BUtil.m; sourceTree = "<group>"; };
 		59E552031D56269E004620DD /* DebugHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugHelpers.h; sourceTree = "<group>"; };
@@ -132,6 +138,8 @@
 				6003F5A6195388D20070C39A /* TTViewController.m */,
 				59E552091D562966004620DD /* HomeViewController.h */,
 				59E5520A1D562966004620DD /* HomeViewController.m */,
+				591B7EB31D56327300B29551 /* FlickrInterestingViewController.h */,
+				591B7EB41D56327300B29551 /* FlickrInterestingViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -141,6 +149,8 @@
 			children = (
 				59E5520D1D562DEA004620DD /* MenuTableViewCell.h */,
 				59E5520E1D562DEA004620DD /* MenuTableViewCell.m */,
+				591B7EB61D56331900B29551 /* FlickrListItemTableViewCell.h */,
+				591B7EB71D56331900B29551 /* FlickrListItemTableViewCell.m */,
 			);
 			name = "Table Cells";
 			sourceTree = "<group>";
@@ -438,9 +448,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* TTAppDelegate.m in Sources */,
+				591B7EB81D56331900B29551 /* FlickrListItemTableViewCell.m in Sources */,
 				6003F5A7195388D20070C39A /* TTViewController.m in Sources */,
 				59E552041D56269E004620DD /* BUtil.m in Sources */,
 				59E5520B1D562966004620DD /* HomeViewController.m in Sources */,
+				591B7EB51D56327300B29551 /* FlickrInterestingViewController.m in Sources */,
 				59E5520F1D562DEA004620DD /* MenuTableViewCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
