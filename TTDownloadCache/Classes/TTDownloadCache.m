@@ -52,18 +52,18 @@
         DLog(@"API task:%@ errored with error:%@, response:%@",task,error,resp);
 #pragma unused(resp)
         dispatch_async(dispatch_get_main_queue(), ^{
-            handler(nil,NO);
+            handler(nil,task.originalRequest,NO);
         });
         return;
     }
     if (![self isValidDataObject:dataForTask]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            handler(nil,NO);
+            handler(nil,task.originalRequest,NO);
         });
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        handler(dataForTask,NO);
+        handler(dataForTask,task.originalRequest,NO);
     });
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{

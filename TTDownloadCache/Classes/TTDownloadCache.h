@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^DataHandler)(NSData * data, BOOL fromCache);
+typedef void (^DataHandler)(NSData * data ,NSURLRequest * originalRequest, BOOL fromCache);
 
 @interface TTDownloadCache : NSObject
 - (void) dataFromURLRequest:(NSURLRequest *)request withHandler:(DataHandler)blockName;
+- (void) cancelRequest:(NSURLRequest *)request;
 @end

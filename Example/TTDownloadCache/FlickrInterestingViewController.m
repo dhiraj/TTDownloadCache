@@ -78,7 +78,7 @@
     [self.view addSubview:self.tableView];
     self.title = S_FlickrInteresting;
     __weak FlickrInterestingViewController * weakSelf = self;
-    self.dataHandlerBlock = ^(NSData *data, BOOL fromCache) {
+    self.dataHandlerBlock = ^(NSData *data, NSURLRequest * request, BOOL fromCache) {
         DLog(@"");
         weakSelf.loadingPage = NO;
         if (!data) {

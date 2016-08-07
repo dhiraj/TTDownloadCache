@@ -52,4 +52,5 @@
 + (void) makeBigTextField:(nonnull UITextField *)textfield;
 + (void) makeBigLabel:(nonnull UILabel *)label;
 + (BOOL) string:(nonnull NSString *)stringA isSameAs:(nonnull NSString *)stringB;
++ (BOOL) urlRequest:(nonnull NSURLRequest *)request1 hasSameURLAs:(nonnull NSURLRequest *)request2;
 @end
