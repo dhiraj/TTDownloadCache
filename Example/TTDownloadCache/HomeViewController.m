@@ -11,6 +11,7 @@
 #import "MenuTableViewCell.h"
 #import "FlickrInterestingViewController.h"
 #import "SingleCancelViewController.h"
+@import QuickLook;
 
 
 typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITableView * tableView, NSIndexPath * ipath);
@@ -37,6 +38,12 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
         SingleCancelViewController * vc = [[SingleCancelViewController alloc] initWithNibName:nil bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];
     };
+    MenuHandler pdfHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
+        DLog(@"%@, %@",item,userInfo);
+        [[UIApplication app].downloadCache dataFromURL:@"https://vishenlakhiani.s3.amazonaws.com/CE/CE_workbook.pdf" withHandler:^(NSData *data, NSString *originalURL, BOOL fromCache) {
+            DLog(@"Downloaded");
+        } useMemCache:NO];
+    };
     MenuHandler clearMemCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
         [[UIApplication app].downloadCache clearMemCache];
@@ -53,6 +60,11 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
                             @"title":S_Flickr,
                             @"description":S_CancelFirstImageDownload,
                             @"handler":[singleCancelHandler copy],
+                            },
+                        @{
+                            @"title":S_PDF,
+                            @"description":S_NonCachedPDFDownload,
+                            @"handler":[pdfHandler copy],
                             },
                         @{
                             @"title":S_ClearMemory,
