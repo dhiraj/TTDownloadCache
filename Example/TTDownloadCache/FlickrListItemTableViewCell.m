@@ -13,6 +13,7 @@
 @interface FlickrListItemTableViewCell ()
 @property (nonatomic,strong) TTFlickrItem * myItem;
 @property (nonatomic,assign) BOOL fetchingImage;
+@property (nonatomic,strong) NSString * cancelToken;
 @end
 @implementation FlickrListItemTableViewCell
 #pragma mark - Private
@@ -23,7 +24,7 @@
     [self setNeedsLayout];
     self.fetchingImage = YES;
     NSString * fetchingURL = self.myItem.url_q;
-    [[UIApplication app].downloadCache dataFromURL:fetchingURL withHandler:^(NSData *data,NSString * originalRequest, BOOL fromCache) {
+    self.cancelToken = [[UIApplication app].downloadCache dataFromURL:fetchingURL withHandler:^(NSData *data,NSString * originalRequest, BOOL fromCache) {
         self.fetchingImage = NO;
         if (![BUtil string:originalRequest isSameAs:fetchingURL]) {
             DLog(@"Image for some other request, returning");
@@ -46,7 +47,7 @@
 - (void) cancelCurrentImageLoad{
     if (self.fetchingImage) {
         DLog(@"Cancel");
-        [[UIApplication app].downloadCache cancelRequest:self.myItem.url_q];
+        [[UIApplication app].downloadCache cancelRequestWithCancelToken:self.cancelToken];
     }
     self.imageView.image = nil;
 }
