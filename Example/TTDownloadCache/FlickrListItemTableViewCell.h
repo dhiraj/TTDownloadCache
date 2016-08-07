@@ -11,4 +11,5 @@
 
 @interface FlickrListItemTableViewCell : UITableViewCell
 - (void) updateFlickrItemTo:(TTFlickrItem *)item;
+- (void) updateFlickrItemTo:(TTFlickrItem *)item cancelImageLoad:(BOOL)cancel;
 @end

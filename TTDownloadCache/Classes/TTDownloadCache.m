@@ -129,17 +129,31 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 }
 
 #pragma mark - Exposed
-- (void) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName{
+- (NSString *) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName{
     NSURLSessionDataTask * task = [self.session dataTaskWithURL:[NSURL URLWithString:request]];
+    NSString * uuid = [[NSUUID UUID] UUIDString];
+    task.taskDescription = uuid;
     self.dictTaskHandlers[task] = blockName;
     [task resume];
+    return uuid;
 }
-- (void) cancelRequest:(NSString *)request{
+- (void) cancelAllRequestsWithURL:(NSString *)url{
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         for (NSURLSessionDataTask * task in dataTasks) {
-            if ([[[task.originalRequest URL] absoluteString] compare:request options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+            if ([[[task.originalRequest URL] absoluteString] compare:url options:NSCaseInsensitiveSearch] == NSOrderedSame) {
                 [task cancel];
                 DLog(@"Cancelled :%@",task.originalRequest);
+            }
+        }
+    }];
+}
+- (void) cancelRequestWithCancelToken:(NSString *)token{
+    [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+        for (NSURLSessionDataTask * task in dataTasks) {
+            if ([task.taskDescription isEqualToString:token]) {
+                [task cancel];
+                DLog(@"Cancelled :%@",token);
+                break;
             }
         }
     }];

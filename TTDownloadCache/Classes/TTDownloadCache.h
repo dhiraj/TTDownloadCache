@@ -11,6 +11,7 @@
 typedef void (^DataHandler)(NSData * data ,NSString * originalURL, BOOL fromCache);
 
 @interface TTDownloadCache : NSObject
-- (void) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName;
-- (void) cancelRequest:(NSString *)request;
+- (NSString *) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName;
+- (void) cancelAllRequestsWithURL:(NSString *)url;
+- (void) cancelRequestWithCancelToken:(NSString *)token;
 @end

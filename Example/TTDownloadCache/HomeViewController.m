@@ -10,6 +10,7 @@
 #import "TTAppDelegate.h"
 #import "MenuTableViewCell.h"
 #import "FlickrInterestingViewController.h"
+#import "SingleCancelViewController.h"
 
 
 typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITableView * tableView, NSIndexPath * ipath);
@@ -31,6 +32,11 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
         FlickrInterestingViewController * vc = [[FlickrInterestingViewController alloc] initWithNibName:nil bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];
     };
+    MenuHandler singleCancelHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
+        DLog(@"%@, %@",item,userInfo);
+        SingleCancelViewController * vc = [[SingleCancelViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:vc animated:YES];
+    };
     MenuHandler clearMemCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
     };
@@ -42,6 +48,11 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
                             @"title":S_Flickr,
                             @"description":S_ShowInterestingImages,
                             @"handler":[flickrHandler copy],
+                            },
+                        @{
+                            @"title":S_Flickr,
+                            @"description":S_CancelFirstImageDownload,
+                            @"handler":[singleCancelHandler copy],
                             },
                         @{
                             @"title":S_ClearMemory,

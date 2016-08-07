@@ -8,33 +8,24 @@
 
 #import "FlickrInterestingViewController.h"
 #import "FlickrListItemTableViewCell.h"
-#import "TTAppDelegate.h"
 #import "JSONPointer.h"
 #import "DateTools.h"
 
 #define PAGESIZE @"500"
 
-@interface FlickrInterestingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface FlickrInterestingViewController ()
 @property (nonatomic,strong) UITableView * tableView;
 @property (nonatomic,strong) NSMutableArray * arrayResults;
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic,assign) BOOL hasMaxed;
-@property (nonatomic,copy) DataHandler dataHandlerBlock;
 @property (nonatomic,assign) BOOL loadingPage;
+@property (nonatomic,copy) DataHandler dataHandlerBlock;
 @end
 
 #define SINGLECELL @"SINGLECELL"
 @implementation FlickrInterestingViewController
 
 #pragma mark - Private
-- (void) loadNextPageIfPossible{
-    DLog(@"");
-    if (!self.loadingPage && !self.hasMaxed) {
-        self.loadingPage = YES;
-        DLog(@"Loading");
-    }
-    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock];
-}
 - (void) reloadTableViewByAddingArray:(NSArray *)additional{
     NSRange range = NSMakeRange(self.arrayResults.count, additional.count);
     NSIndexSet * iset = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -104,7 +95,7 @@
         [weakSelf reloadTableViewByAddingArray:items];
 //        DLog(@"%@",dict);
     };
-    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock];
+    [self loadNextPageIfPossible];
 }
 - (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -139,6 +130,14 @@
     [cell updateFlickrItemTo:item];
 //    [cell updateItemTo:self.arrayMenu[indexPath.row]];
     return cell;
+}
+- (void) loadNextPageIfPossible{
+    DLog(@"");
+    if (!self.loadingPage && !self.hasMaxed) {
+        self.loadingPage = YES;
+        DLog(@"Loading");
+    }
+    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock];
 }
 
 @end
