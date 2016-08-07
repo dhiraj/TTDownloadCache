@@ -10,8 +10,8 @@ target 'TTDownloadCache_Example' do
 
   target 'TTDownloadCache_Tests' do
     inherit! :search_paths
-
-    pod 'Specta'
-  pod 'Expecta'
+	pod 'Specta'
+	pod 'Expecta'
+	pod 'TTDownloadCache', :path => '../'
   end
 end

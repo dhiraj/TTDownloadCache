@@ -4,5 +4,5 @@
 
   @import Specta;
   @import Expecta;
-
+#import "TTDownloadCache.h"
 #endif
