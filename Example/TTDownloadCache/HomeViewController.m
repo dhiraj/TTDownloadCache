@@ -11,13 +11,14 @@
 #import "MenuTableViewCell.h"
 #import "FlickrInterestingViewController.h"
 #import "SingleCancelViewController.h"
+#import "MBProgressHUD.h"
 @import QuickLook;
 
 
 typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITableView * tableView, NSIndexPath * ipath);
 
 
-@interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface HomeViewController ()<UITableViewDataSource,UITableViewDelegate,QLPreviewControllerDataSource>
 @property (nonatomic,strong) UITableView * tableView;
 @property (nonatomic,strong) NSMutableArray * arrayMenu;
 @end
@@ -26,6 +27,11 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
 @implementation HomeViewController
 
 #pragma mark - LifeCycle
+- (NSString *) pdfFilePath{
+    NSString * cachePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    NSString * filePath = [[cachePath stringByAppendingPathComponent:@"Demo PDF file"] stringByAppendingPathExtension:@"pdf"];
+    return filePath;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     MenuHandler flickrHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
@@ -40,8 +46,23 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     };
     MenuHandler pdfHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-        [[UIApplication app].downloadCache dataFromURL:@"https://vishenlakhiani.s3.amazonaws.com/CE/CE_workbook.pdf" withHandler:^(NSData *data, NSString *originalURL, BOOL fromCache) {
+        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.label.text = @"Downloading PDF...";
+        [[UIApplication app].downloadCache dataFromURL:@"http://www.pdf995.com/samples/pdf.pdf" withHandler:^(NSData *data, NSString *originalURL, BOOL fromCache) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (![BUtil isValidDataObject:data]) {
+                DLog(@"Couldn't download, skipping!");
+                return ;
+            }
+            NSFileManager * fileman = [NSFileManager defaultManager];
+            NSString * filePath = [self pdfFilePath];
+            [fileman removeItemAtPath:filePath error:nil];
+            [data writeToFile:filePath atomically:NO];
+            QLPreviewController * vc = [[QLPreviewController alloc] initWithNibName:nil bundle:nil];
+            vc.dataSource = self;
+            [self.navigationController pushViewController:vc animated:YES];
             DLog(@"Downloaded");
+            
         } useMemCache:NO];
     };
     MenuHandler clearMemCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
@@ -121,5 +142,12 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     }
     handler(item,nil,self.tableView,indexPath);
 }
-
+#pragma mark - QLPreviewController
+- (NSInteger) numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
+    return 1;
+}
+- (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
+    NSURL * url = [self pdfFilePath].URLValue;
+    return url;
+}
 @end
