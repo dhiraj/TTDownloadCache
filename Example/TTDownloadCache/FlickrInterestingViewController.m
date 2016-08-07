@@ -12,6 +12,8 @@
 #import "JSONPointer.h"
 #import "DateTools.h"
 
+#define PAGESIZE @"500"
+
 @interface FlickrInterestingViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) UITableView * tableView;
 @property (nonatomic,strong) NSMutableArray * arrayResults;
@@ -51,7 +53,7 @@
     NSMutableDictionary * params = [@{
                                       @"method":@"flickr.interestingness.getList"
                                       ,@"api_key":@"0845bbb79445bf10a0a1ea948aa5dae7"
-                                      ,@"per_page":@"10"
+                                      ,@"per_page":PAGESIZE
                                       ,@"format":@"json"
                                       ,@"nojsoncallback":@"1"
                                       ,@"extras":@"url_q,owner_name,last_update,o_dims"
@@ -72,9 +74,10 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.rowHeight = 91.0f;
+    self.tableView.rowHeight = 83.0f;
     [self.tableView registerClass:[FlickrListItemTableViewCell class] forCellReuseIdentifier:SINGLECELL];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.allowsSelection = NO;
     [self.view addSubview:self.tableView];
     self.title = S_FlickrInteresting;
     __weak FlickrInterestingViewController * weakSelf = self;

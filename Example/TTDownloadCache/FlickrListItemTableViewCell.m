@@ -67,7 +67,7 @@
 - (void) layoutSubviews{
     [super layoutSubviews];
     CGRect mybounds = self.contentView.bounds;
-    CGRect remainder = CGRectInset(mybounds, GAP, GAP);
+    CGRect remainder = CGRectInset(mybounds, GAP, GAP_HALF);
     CGRect temp;
     CGRectDivide(remainder, &temp, &remainder, 75.0f, CGRectMinXEdge);
     self.imageView.frame = temp;
