@@ -53,18 +53,18 @@
         DLog(@"API task:%@ errored with error:%@, response:%@",task,error,resp);
 #pragma unused(resp)
         dispatch_async(dispatch_get_main_queue(), ^{
-            handler(nil,task.originalRequest,NO);
+            handler(nil,task.originalRequest.URL.absoluteString,NO);
         });
         return;
     }
     if (![self isValidDataObject:dataForTask]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            handler(nil,task.originalRequest,NO);
+            handler(nil,task.originalRequest.URL.absoluteString,NO);
         });
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        handler(dataForTask,task.originalRequest,NO);
+        handler(dataForTask,task.originalRequest.URL.absoluteString,NO);
     });
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data{
@@ -129,15 +129,15 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 }
 
 #pragma mark - Exposed
-- (void) dataFromURLRequest:(NSURLRequest *)request withHandler:(DataHandler)blockName{
-    NSURLSessionDataTask * task = [self.session dataTaskWithRequest:request];
+- (void) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName{
+    NSURLSessionDataTask * task = [self.session dataTaskWithURL:[NSURL URLWithString:request]];
     self.dictTaskHandlers[task] = blockName;
     [task resume];
 }
-- (void) cancelRequest:(NSURLRequest *)request{
+- (void) cancelRequest:(NSString *)request{
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         for (NSURLSessionDataTask * task in dataTasks) {
-            if ([[[task.originalRequest URL] absoluteString] compare:request.URL.absoluteString options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+            if ([[[task.originalRequest URL] absoluteString] compare:request options:NSCaseInsensitiveSearch] == NSOrderedSame) {
                 [task cancel];
                 DLog(@"Cancelled :%@",task.originalRequest);
             }

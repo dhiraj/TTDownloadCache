@@ -16,19 +16,16 @@
 @end
 @implementation FlickrListItemTableViewCell
 #pragma mark - Private
-- (NSURLRequest *) imageRequest{
-    return [NSURLRequest GETRequestWithURL:self.myItem.url_q.URLValue parameters:@{}];
-}
 - (void) updateDisplayViews{
     self.textLabel.text = [NSString stringWithFormat:@"%@ - %@",self.myItem.ownername,self.myItem.title];
     NSDate * date = [NSDate dateWithTimeIntervalSince1970:self.myItem.lastupdate];
     self.detailTextLabel.text = date.timeAgoSinceNow;
     [self setNeedsLayout];
     self.fetchingImage = YES;
-    NSURLRequest * request = [self imageRequest];
-    [[UIApplication app].downloadCache dataFromURLRequest:request withHandler:^(NSData *data,NSURLRequest * originalRequest, BOOL fromCache) {
+    NSString * fetchingURL = self.myItem.url_q;
+    [[UIApplication app].downloadCache dataFromURL:fetchingURL withHandler:^(NSData *data,NSString * originalRequest, BOOL fromCache) {
         self.fetchingImage = NO;
-        if (![BUtil urlRequest:request hasSameURLAs:[self imageRequest]]) {
+        if (![BUtil string:originalRequest isSameAs:fetchingURL]) {
             DLog(@"Image for some other request, returning");
             return ;
         }
@@ -47,9 +44,9 @@
     }];
 }
 - (void) cancelCurrentImageLoad{
-    if (!self.fetchingImage) {
+    if (self.fetchingImage) {
         DLog(@"Cancel");
-        [[UIApplication app].downloadCache cancelRequest:[self imageRequest]];
+        [[UIApplication app].downloadCache cancelRequest:self.myItem.url_q];
     }
     self.imageView.image = nil;
 }

@@ -33,7 +33,7 @@
         self.loadingPage = YES;
         DLog(@"Loading");
     }
-    [[UIApplication app].downloadCache dataFromURLRequest:[self nextPageURLRequest] withHandler:self.dataHandlerBlock];
+    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock];
 }
 - (void) reloadTableViewByAddingArray:(NSArray *)additional{
     NSRange range = NSMakeRange(self.arrayResults.count, additional.count);
@@ -48,7 +48,7 @@
     [self.tableView insertRowsAtIndexPaths:ipaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
 }
-- (NSURLRequest *) nextPageURLRequest{
+- (NSString *) nextPageURL{
     NSString * baseURL = [NSString stringWithFormat:@"https://api.flickr.com/services/rest/"];
     NSMutableDictionary * params = [@{
                                       @"method":@"flickr.interestingness.getList"
@@ -61,10 +61,8 @@
     self.page += 1;
     params[@"page"] = @(self.page);
     NSString * fullURLString = [NSString stringWithFormat:@"%@?%@",baseURL,[NSString URLQueryWithParameters:params]];
-    NSURL * fullURL = fullURLString.URLValue;
-    NSURLRequest * request = [NSURLRequest requestWithURL:fullURL];
-    DLog(@"Generated request:%@",request);
-    return request;
+    DLog(@"Generated request:%@",fullURLString);
+    return fullURLString;
 }
 
 #pragma mark - LifeCycle
@@ -81,7 +79,7 @@
     [self.view addSubview:self.tableView];
     self.title = S_FlickrInteresting;
     __weak FlickrInterestingViewController * weakSelf = self;
-    self.dataHandlerBlock = ^(NSData *data, NSURLRequest * request, BOOL fromCache) {
+    self.dataHandlerBlock = ^(NSData *data, NSString * request, BOOL fromCache) {
         DLog(@"");
         weakSelf.loadingPage = NO;
         if (!data) {
@@ -106,7 +104,7 @@
         [weakSelf reloadTableViewByAddingArray:items];
 //        DLog(@"%@",dict);
     };
-    [[UIApplication app].downloadCache dataFromURLRequest:[self nextPageURLRequest] withHandler:self.dataHandlerBlock];
+    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock];
 }
 - (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
