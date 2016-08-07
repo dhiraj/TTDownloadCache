@@ -1,10 +1,24 @@
 PODS:
+  - DateTools (1.7.0)
   - Expecta (1.0.5)
+  - JSONModel (1.3.0)
+  - JSONTools (1.0.5):
+    - KiteJSONValidator (~> 0.2.2)
+  - KiteJSONValidator (0.2.3):
+    - KiteJSONValidator/KiteJSONResources (= 0.2.3)
+  - KiteJSONValidator/KiteJSONResources (0.2.3)
+  - MBProgressHUD (1.0.0)
+  - RequestUtils (1.1.2)
   - Specta (1.0.5)
   - TTDownloadCache (0.1.0)
 
 DEPENDENCIES:
+  - DateTools (~> 1.7)
   - Expecta
+  - JSONModel (~> 1.3)
+  - JSONTools (~> 1.0)
+  - MBProgressHUD
+  - RequestUtils (~> 1.1)
   - Specta
   - TTDownloadCache (from `../`)
 
@@ -13,10 +27,16 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
+  JSONModel: 81c06ecf99190a25fa6aafceea5faffa7880868a
+  JSONTools: ece6f2986f932ce0478637a30276b2280706864c
+  KiteJSONValidator: 9692df579aab9d195c68d4cab992cfd37d8744ab
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  RequestUtils: 0f04f89abca3936c6566e2f4c3ce5d252036bc89
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
-  TTDownloadCache: d851257d0673a5c2d93fbef30d1040016492209d
+  TTDownloadCache: dc4f27fd4f9d1cf93b597e7e1197ff41051a9473
 
-PODFILE CHECKSUM: 69937215680c591629247d3490fa232b1424e80a
+PODFILE CHECKSUM: 7e62ca71da57183f96d583a27077bdc690a6cbcd
 
 COCOAPODS: 1.0.1
