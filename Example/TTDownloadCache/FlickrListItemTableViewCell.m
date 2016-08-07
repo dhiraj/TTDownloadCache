@@ -43,8 +43,7 @@
         }
         self.imageView.image = img;
         [self setNeedsLayout];
-        DLog(@"Got image!");
-    }];
+    } useMemCache:YES];
     if (self.cancelImageLoadImmediately) {
         [cache cancelRequestWithCancelToken:self.cancelToken];
         //DKG: Switch lines to see the difference between single cancel and cancel all

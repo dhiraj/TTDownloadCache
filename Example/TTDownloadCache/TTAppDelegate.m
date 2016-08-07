@@ -17,7 +17,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     [self.window setRootViewController:[BUtil navigationControllerWithRoot:[[HomeViewController alloc] initWithNibName:nil bundle:nil]]];
-    self.downloadCache = [[TTDownloadCache alloc] init];
+    self.downloadCache = [[TTDownloadCache alloc] initWithMaxSize:20000 * 100];
     return YES;
 }
 

@@ -7,39 +7,82 @@
 //
 
 #import "TTDownloadCache.h"
+#import "TTCacheItem.h"
 #import "DebugHelpers.h"
 
 @interface TTDownloadCache ()<NSURLSessionDelegate>
 @property (nonatomic,strong) NSURLSession * session;
 @property (nonatomic,strong) NSMutableDictionary * dictTaskData;
 @property (nonatomic,strong) NSMutableDictionary * dictTaskHandlers;
+@property (nonatomic,assign) unsigned long long maxSize;
+@property (nonatomic,assign) unsigned long long currentSize;
+@property (nonatomic,strong) NSMutableOrderedSet * setLRU;
+@property (nonatomic,strong) NSCache * memCache;
 @end
 @implementation TTDownloadCache
 #pragma mark - Private
-#pragma mark - LifeCycle
-- (instancetype) init{
-    self = [super init];
-    if (self) {
-        NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-        config.URLCache = nil;
-        self.session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-        self.dictTaskData = [NSMutableDictionary dictionary];
-        self.dictTaskHandlers = [NSMutableDictionary dictionary];
-    }
-    return self;
-    
-}
 - (BOOL) isValidDataObject:(id)object{
     if (object != nil && [NSNull null] != object && [object isKindOfClass:[NSData class]]) {
         return [object length] > 0;
     }
     return NO;
 }
+- (void) sortByLRU{
+//#ifdef DEBUG
+//    NSMutableOrderedSet * before = [NSMutableOrderedSet orderedSet];
+//    for (TTCacheItem * item in self.setLRU) {
+//        [before addObject:@(item.useCount)];
+//    }
+//#endif
+    NSSortDescriptor * sort =  [NSSortDescriptor sortDescriptorWithKey:@"useCount" ascending:YES];
+    [self.setLRU sortUsingDescriptors:@[sort]];
+//#ifdef DEBUG
+//    NSMutableOrderedSet * after = [NSMutableOrderedSet orderedSet];
+//    for (TTCacheItem * item in self.setLRU) {
+//        [after addObject:@(item.useCount)];
+//    }
+//    DLog(@"\nBefore:%@\nAfter:%@",before,after);
+//#endif
+}
+- (void) trimCache{
+    DLog(@"CurrentSize: %d / %d",self.currentSize, self.maxSize);
+    while (self.currentSize > self.maxSize && self.setLRU.count > 0) {
+        TTCacheItem * item = [self.setLRU objectAtIndex:0];
+        self.currentSize -= item.size;
+        [self.setLRU removeObjectAtIndex:0];
+        [self.memCache removeObjectForKey:item];
+        DLog(@"Removed %d, CurrentSize: %d / %d",item.size,self.currentSize, self.maxSize);
+    }
+}
+#pragma mark - Notification Handlers
+- (void) appdidReceiveMemoryWarning:(NSNotification *)notification{
+    [self clearMemCache];
+    DLog(@"%@",notification);
+}
+#pragma mark - LifeCycle
+- (instancetype) initWithMaxSize:(unsigned long long)byteSize{
+    self = [super init];
+    if (self) {
+        self.maxSize = byteSize;
+        self.setLRU = [NSMutableOrderedSet orderedSet];
+        self.memCache = [[NSCache alloc] init];
+        NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+        config.URLCache = nil;
+        self.session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+        self.dictTaskData = [NSMutableDictionary dictionary];
+        self.dictTaskHandlers = [NSMutableDictionary dictionary];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appdidReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+    }
+    return self;
+    
+}
+- (void) dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 #pragma mark - NSURLSession
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error{
-    DLog(@"Finished:%@,Eror:%@",task,error);
     DataHandler handler = self.dictTaskHandlers[task];
     NSData * dataForTask = self.dictTaskData[task];
     [self.dictTaskData removeObjectForKey:task];
@@ -63,6 +106,15 @@
         });
         return;
     }
+    BOOL useMemCache = [[task.taskDescription substringToIndex:1] isEqualToString:@"1"];
+    if (useMemCache) {
+        TTCacheItem * item = [[TTCacheItem alloc] initWithKey:task.originalRequest.URL.absoluteString];
+        item.size = dataForTask.length;
+        self.currentSize += item.size;
+        [self.setLRU addObject:item];
+        [self.memCache setObject:dataForTask forKey:item];
+        [self trimCache];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         handler(dataForTask,task.originalRequest.URL.absoluteString,NO);
     });
@@ -74,14 +126,7 @@
     }
     if ([self isValidDataObject:data]) {
         [oldDataForTask appendData:data];
-        DLog(@"Added %lu bytes",(unsigned long)data.length);
-#ifdef DEBUG
-        NSString * sData = @"";
-        if (data.length < 10000) {
-            sData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            DLog(@"%@",sData);
-        }
-#endif
+//        DLog(@"Added %lu bytes",(unsigned long)data.length);
     }
     self.dictTaskData[dataTask] = oldDataForTask;
 }
@@ -103,7 +148,7 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
     DLog(@"REDIRECTING: %@->%@",response,request);
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * __nullable credential))completionHandler{
-    DLog(@"");
+//    DLog(@"");
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task needNewBodyStream:(void (^)(NSInputStream * __nullable bodyStream))completionHandler{
     DLog(@"");
@@ -114,7 +159,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler{
-    DLog(@"Response received:%@",response);
+//    DLog(@"Response received:%@",response);
     completionHandler(NSURLSessionResponseAllow);
 }
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
@@ -129,10 +174,31 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 }
 
 #pragma mark - Exposed
-- (NSString *) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName{
+- (NSString *) dataFromURL:(NSString *)request withHandler:(DataHandler)blockName useMemCache:(BOOL)useCache{
+    if (useCache) {
+        TTCacheItem * requestedItem = [[TTCacheItem alloc] initWithKey:request];
+        NSUInteger index = [self.setLRU indexOfObject:requestedItem];
+        if (index != NSNotFound) {
+            TTCacheItem * actualItem = [self.setLRU objectAtIndex:index];
+            actualItem.useCount += 1;
+            NSData * data = [self.memCache objectForKey:requestedItem];
+            if ([self isValidDataObject:data]) {
+                DLog(@"Cache HIT! %@ Bytes:%d",request,data.length);
+                blockName(data,request,YES);
+                [self sortByLRU];
+                return request;
+            }
+            else{
+                DLog(@"Object for request:%@ evicted?",request);
+            }
+        }
+        else{
+            DLog(@"Cache miss");
+        }
+    }
     NSURLSessionDataTask * task = [self.session dataTaskWithURL:[NSURL URLWithString:request]];
     NSString * uuid = [[NSUUID UUID] UUIDString];
-    task.taskDescription = uuid;
+    task.taskDescription = [NSString stringWithFormat:@"%@%@",(useCache)?@"1":@"0",uuid];
     self.dictTaskHandlers[task] = blockName;
     [task resume];
     return uuid;
@@ -150,12 +216,17 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 - (void) cancelRequestWithCancelToken:(NSString *)token{
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
         for (NSURLSessionDataTask * task in dataTasks) {
-            if ([task.taskDescription isEqualToString:token]) {
+            if ([[task.taskDescription substringFromIndex:1] isEqualToString:token]) {
                 [task cancel];
                 DLog(@"Cancelled :%@",token);
                 break;
             }
         }
     }];
+}
+- (void) clearMemCache{
+    DLog(@"Clearing mem cache");
+    [self.memCache removeAllObjects];
+    [self.setLRU removeAllObjects];
 }
 @end

@@ -24,6 +24,7 @@
 #define S_ClearDisk NSLocalizedString(@"Clear Disk",@"")
 #define S_PurgeDiskCache NSLocalizedString(@"Purge Disk Cache",@"")
 #define S_CancelFirstImageDownload NSLocalizedString(@"Cancel first image download",@"")
+#define S_ClearedMemory NSLocalizedString(@"Memory cache has been cleared",@"")
 
 
 #endif /* TranslatedStrings_h */
