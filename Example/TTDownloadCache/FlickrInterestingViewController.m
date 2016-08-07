@@ -18,14 +18,33 @@
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic,assign) BOOL hasMaxed;
 @property (nonatomic,copy) DataHandler dataHandlerBlock;
+@property (nonatomic,assign) BOOL loadingPage;
 @end
 
 #define SINGLECELL @"SINGLECELL"
 @implementation FlickrInterestingViewController
 
 #pragma mark - Private
-- (void) reloadTableView{
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+- (void) loadNextPageIfPossible{
+    DLog(@"");
+    if (!self.loadingPage && !self.hasMaxed) {
+        self.loadingPage = YES;
+        DLog(@"Loading");
+    }
+    [[UIApplication app].downloadCache dataFromURLRequest:[self nextPageURLRequest] withHandler:self.dataHandlerBlock];
+}
+- (void) reloadTableViewByAddingArray:(NSArray *)additional{
+    NSRange range = NSMakeRange(self.arrayResults.count, additional.count);
+    NSIndexSet * iset = [NSIndexSet indexSetWithIndexesInRange:range];
+    NSMutableArray * ipaths = [NSMutableArray arrayWithCapacity:additional.count];
+    [iset enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+        NSIndexPath * ipath = [NSIndexPath indexPathForRow:idx inSection:0];
+        [ipaths addObject:ipath];
+    }];
+    [self.tableView beginUpdates];
+    [self.arrayResults addObjectsFromArray:additional];
+    [self.tableView insertRowsAtIndexPaths:ipaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
 - (NSURLRequest *) nextPageURLRequest{
     NSString * baseURL = [NSString stringWithFormat:@"https://api.flickr.com/services/rest/"];
@@ -61,6 +80,7 @@
     __weak FlickrInterestingViewController * weakSelf = self;
     self.dataHandlerBlock = ^(NSData *data, BOOL fromCache) {
         DLog(@"");
+        weakSelf.loadingPage = NO;
         if (!data) {
             weakSelf.hasMaxed = YES;
             return ;
@@ -80,8 +100,7 @@
             weakSelf.hasMaxed = YES;
             return;
         }
-        [weakSelf.arrayResults addObjectsFromArray:items];
-        [weakSelf reloadTableView];
+        [weakSelf reloadTableViewByAddingArray:items];
 //        DLog(@"%@",dict);
     };
     [[UIApplication app].downloadCache dataFromURLRequest:[self nextPageURLRequest] withHandler:self.dataHandlerBlock];
@@ -105,6 +124,11 @@
     self.tableView.scrollIndicatorInsets = insets;
 }
 #pragma mark - UITableView
+- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    if (targetContentOffset->y + CGRectGetHeight(scrollView.bounds) >= scrollView.contentSize.height - 50) {
+        [self loadNextPageIfPossible];
+    }
+}
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.arrayResults.count;
 }
