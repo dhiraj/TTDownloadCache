@@ -137,7 +137,7 @@
         self.loadingPage = YES;
         DLog(@"Loading");
     }
-    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock];
+    [[UIApplication app].downloadCache dataFromURL:[self nextPageURL] withHandler:self.dataHandlerBlock useMemCache:YES];
 }
 
 @end
