@@ -20,11 +20,15 @@
 - (instancetype) init{
     self = [super init];
     if (self) {
-        self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:nil];
+        NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+        config.URLCache = nil;
+        self.session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
         self.dictTaskData = [NSMutableDictionary dictionary];
         self.dictTaskHandlers = [NSMutableDictionary dictionary];
     }
     return self;
+    
 }
 - (BOOL) isValidDataObject:(id)object{
     if (object != nil && [NSNull null] != object && [object isKindOfClass:[NSData class]]) {
@@ -128,5 +132,15 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     NSURLSessionDataTask * task = [self.session dataTaskWithRequest:request];
     self.dictTaskHandlers[task] = blockName;
     [task resume];
+}
+- (void) cancelRequest:(NSURLRequest *)request{
+    [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+        for (NSURLSessionDataTask * task in dataTasks) {
+            if ([[[task.originalRequest URL] absoluteString] compare:request.URL.absoluteString options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                [task cancel];
+                DLog(@"Cancelled :%@",task.originalRequest);
+            }
+        }
+    }];
 }
 @end
