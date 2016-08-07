@@ -39,9 +39,9 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
     };
     MenuHandler clearMemCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
         DLog(@"%@, %@",item,userInfo);
-    };
-    MenuHandler clearDiskCacheHandler = ^void(NSDictionary * item,NSDictionary *userInfo, UITableView * tableView, NSIndexPath * ipath){
-        DLog(@"%@, %@",item,userInfo);
+        [[UIApplication app].downloadCache clearMemCache];
+        [BUtil showOkAlertWithTitle:S_ClearMemory message:S_ClearedMemory];
+        [tableView deselectRowAtIndexPath:ipath animated:YES];
     };
     self.arrayMenu = [@[
                         @{
@@ -58,11 +58,6 @@ typedef void (^MenuHandler)(NSDictionary * item, NSDictionary * userInfo, UITabl
                             @"title":S_ClearMemory,
                             @"description":S_PurgeMemCache,
                             @"handler":[clearMemCacheHandler copy],
-                            },
-                        @{
-                            @"title":S_ClearDisk,
-                            @"description":S_ClearMemory,
-                            @"handler":[clearDiskCacheHandler copy],
                             },
                                        ]
                       mutableCopy];

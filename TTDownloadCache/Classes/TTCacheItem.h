@@ -11,5 +11,6 @@
 @interface TTCacheItem : NSObject
 @property (nonatomic,strong) NSString * key;
 @property (nonatomic,assign) unsigned long long useCount;
+@property (nonatomic,assign) unsigned long long size;
 - (instancetype) initWithKey:(NSString *)key;
 @end
