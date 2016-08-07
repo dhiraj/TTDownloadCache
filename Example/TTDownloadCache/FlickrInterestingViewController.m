@@ -11,7 +11,7 @@
 #import "JSONPointer.h"
 #import "DateTools.h"
 
-#define PAGESIZE @"500"
+#define PAGESIZE @"10"
 
 @interface FlickrInterestingViewController ()
 @property (nonatomic,strong) UITableView * tableView;

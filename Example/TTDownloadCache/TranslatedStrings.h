@@ -25,6 +25,8 @@
 #define S_PurgeDiskCache NSLocalizedString(@"Purge Disk Cache",@"")
 #define S_CancelFirstImageDownload NSLocalizedString(@"Cancel first image download",@"")
 #define S_ClearedMemory NSLocalizedString(@"Memory cache has been cleared",@"")
+#define S_PDF NSLocalizedString(@"PDF",@"")
+#define S_NonCachedPDFDownload NSLocalizedString(@"Non-cached PDF download",@"")
 
 
 #endif /* TranslatedStrings_h */
