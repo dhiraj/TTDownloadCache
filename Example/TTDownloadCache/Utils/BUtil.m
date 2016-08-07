@@ -240,5 +240,7 @@
 + (BOOL) string:(NSString *)stringA isSameAs:(NSString *)stringB{
     return [stringA compare:stringB options:NSCaseInsensitiveSearch] == NSOrderedSame;
 }
-
++ (BOOL) urlRequest:(NSURLRequest *)request1 hasSameURLAs:(NSURLRequest *)request2{
+    return [request1.URL.absoluteString compare:request2.URL.absoluteString options:NSCaseInsensitiveSearch] == NSOrderedSame;
+}
 @end
