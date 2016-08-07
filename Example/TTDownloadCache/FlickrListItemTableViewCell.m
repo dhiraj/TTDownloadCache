@@ -49,7 +49,7 @@
 - (void) cancelCurrentImageLoad{
     if (!self.fetchingImage) {
         DLog(@"Cancel");
-//        [[UIApplication app].downloadCache cancelRequest:[NSURLRequest GETRequestWithURL:self.myItem.url_q.URLValue parameters:@{}]];
+        [[UIApplication app].downloadCache cancelRequest:[self imageRequest]];
     }
     self.imageView.image = nil;
 }

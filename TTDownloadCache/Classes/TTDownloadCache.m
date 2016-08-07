@@ -46,6 +46,7 @@
     [self.dictTaskHandlers removeObjectForKey:task];
     if (error != nil) {
         if (error.code == -999) {
+            DLog(@"Cancelled");
             return; //Cancelled
         }
         NSURLResponse * resp = task.response;
