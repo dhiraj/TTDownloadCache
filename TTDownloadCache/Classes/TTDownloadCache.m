@@ -190,6 +190,8 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
             }
             else{
                 DLog(@"Object for request:%@ evicted?",request);
+                [self.setLRU removeObjectAtIndex:index];
+                self.currentSize -= actualItem.size;
             }
         }
         else{
