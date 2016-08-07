@@ -23,6 +23,7 @@
 #define S_PurgeMemCache NSLocalizedString(@"Purge Memory Cache",@"")
 #define S_ClearDisk NSLocalizedString(@"Clear Disk",@"")
 #define S_PurgeDiskCache NSLocalizedString(@"Purge Disk Cache",@"")
+#define S_CancelFirstImageDownload NSLocalizedString(@"Cancel first image download",@"")
 
 
 #endif /* TranslatedStrings_h */

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTAppDelegate.h"
 
-@interface FlickrInterestingViewController : UIViewController
-
+@interface FlickrInterestingViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+- (void) loadNextPageIfPossible;
 @end
